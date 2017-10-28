@@ -61,6 +61,7 @@ export default {
     getFormulario () {
       let formularioRepo = new FormularioRepo()
       let el = this
+      console.log(el)
       formularioRepo.find({args: {empresa: el.client.node.empresa}}).then(({model, data}) => {
         let formulario = data.cliente_form.edges[0].node
         delete formulario.id
