@@ -1,0 +1,30 @@
+@import "variables.scss";
+
+// @import "~font-awesome/scss/font-awesome.scss";
+@import"~bulma/bulma.sass";
+@import"~bulma-switch/switch.sass";
+
+@font-face {
+  font-family: $font-family;
+  font-style: normal;
+  font-weight: normal;
+  src: local($font-family), url($font-family-url) format($font-family-format);
+}
+
+body{
+  font-family: $font-family;
+}
+
+
+.label{
+  color: $white
+}
+.image.is-360x360 {
+    height: 360px;
+    width: 360px;
+}
+
+.hero.is-grey {
+    background-color: $grey;
+    color: #fff;
+}

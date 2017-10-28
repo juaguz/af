@@ -1,0 +1,18 @@
+{
+  "title":"Estudio Maya",
+  "clients-list":"Listado de Clientes",
+  "clients":"Clientes",
+  "user":"Usuario",
+  "users": "Usuarios",
+  "password":"Clave",
+  "submit":"Enviar",
+  "login":"Ingresar",
+  "order":"Ordenar",
+  "add":"Agregar",
+  "list":"Listado",
+  "lang":{
+    "title":"Idioma",
+    "es":"Español",
+    "en":"Ingles"
+  }
+}
