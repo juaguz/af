@@ -21,7 +21,7 @@ div
                 a(class="dropdown-item") Deudor
                 a(class="dropdown-item") Deudor
 
-  table(class="table is-bordered is-striped is-narrow")
+  table(class="table is-bordered is-striped is-narrow is-fullwidth  is-hoverable")
     thead
       tr
         th Nro Deudor
@@ -34,13 +34,13 @@ div
     tbody
       tr(v-for='client in clients')
         td
-          nuxt-link(:to="{ name: 'clients-id', params: { id: client.node.deudor } }") {{client.node.deudor}}
-        td {{client.node.empresa}}
-        td {{client.node.apenom}}
-        td {{client.node.tipdoc}}
-        td {{client.node.cuitdoc}}
-        td {{client.node.domicilio1}}
-        td {{client.node.telemp1}}
+          nuxt-link(:to="{ name: 'clients-id', params: { id: route(client) } }") {{client.deudor}}
+        td {{client.empresa}}
+        td {{client.apenom}}
+        td {{client.tipdoc}}
+        td {{client.cuitdoc}}
+        td {{client.domicilio1}}
+        td {{client.telefono1}}
   div.columns
     div.is-4
       nav.pagination(role="navigation" aria-label="pagination")
@@ -52,12 +52,16 @@ div
 
 <script>
 import CustomMenu from '~/components/Menu.vue'
-import ClientRepo from '~/repositories/ClienteRepo'
+import ClientService from '~/services/ClientService'
+let clientService = new ClientService()
 export default {
   components: {
     CustomMenu
   },
   methods: {
+    route (client) {
+      return `${client.deudor}-10`
+    },
     siguiente () {
       this.counterPreviousePage ++
       this.getData({args: { first: 15, after: this.clients[0].cursor }})
@@ -67,15 +71,18 @@ export default {
       this.hasNextPage = true
       this.getData({args: { first: 15, before: this.clients[14].cursor }})
     },
-    getData (args) {
+    getData () {
       let el = this
-      let clienteRepo = new ClientRepo()
-      return clienteRepo.index(args).then(({model, data}) => {
-        el.clients = data.allClienteDeudores.edges
-        el.pageInfo = data.allClienteDeudores.pageInfo
+      return clientService.index().then(({model, data}) => {
+        el.clients = data
       }).catch((error) => {
         console.log(error)
       })
+    },
+    search (obj) {
+      return clientService.search(obj).then((data) => {
+        this.clients = data.data
+      }).catch((error) => console.log(error))
     }
   },
   computed: {
@@ -95,7 +102,12 @@ export default {
     }
   },
   mounted () {
-    this.getData({args: {first: 15}})
+    let telefono = this.$route.query.telefono
+    if (telefono !== undefined) {
+      this.search([{'field': 'telefono1', 'value': telefono}])
+    } else {
+      this.getData()
+    }
   }
 }
 

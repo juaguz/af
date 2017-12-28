@@ -3,7 +3,12 @@ div
   .tabs(class="is-boxed")
     ul
       li(v-for='tab in tabs', :class="{ 'is-active': tab.isActive }")
-        a(:href='tab.href', @click='selectTab(tab)') {{ tab.name }}
+        a(:href='tab.href', @click='selectTab(tab)') 
+          span.icon.is-small(v-if="tab.icon")
+            i(class="fa" :class="tab.icon")
+          span {{ tab.name }}
+
+        
   .tabs-details
     slot
 </template>

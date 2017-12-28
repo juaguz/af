@@ -10,6 +10,10 @@ export default {
     },
     selected: {
       default: false
+    },
+    icon: {
+      required: false,
+      default: null
     }
   },
   data () {
@@ -25,6 +29,11 @@ export default {
   },
   mounted () {
     this.isActive = this.selected
+  },
+  watch: {
+    isActive () {
+      if (this.isActive === true) this.$emit('active')
+    }
   }
 }
 </script>

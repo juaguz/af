@@ -20,14 +20,18 @@ nav(class="navbar is-grey")
         a(class="navbar-link") {{user.username}}
         div(class="navbar-dropdown")
           a(class="navbar-item", v-on:click="salir") Salir
-
-
-
-
-
-
-
-
+    .navbar-end
+      .navbar-item
+        .field.has-addons
+          .control.has-icons-left
+            input.input.is-rounded(placeholder="", v-model="telefono")
+            span.icon.is-small.is-left
+              i.fa.fa-phone
+          .control      
+            button.is-info.button(v-on:click="buscar")
+              i.fa.fa-search 
+           
+              
 
 </template>
 
@@ -36,12 +40,24 @@ import { unsetToken } from '~/utils/auth'
 import UserForm from '~/components/users/form'
 export default {
   components: {UserForm},
+  data () {
+    return {
+      telefono: null
+    }
+  },
   computed: {
     user () {
       return this.$store.getters['GET_USER']
     }
   },
+  mounted () {
+    let telefono = this.$route.query.telefono
+    if (telefono !== undefined) this.telefono = telefono
+  },
   methods: {
+    buscar () {
+      this.$router.push({ name: 'clients', query: { telefono: this.telefono } })
+    },
     changeLanguage (lang) {
       this.$i18n.locale = lang
     },

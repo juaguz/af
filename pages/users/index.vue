@@ -11,7 +11,7 @@ div
       .container
         h1(class="title") Usuarios
   user-form(:button="true", class="user-form", v-on:userCreated="userCreated")
-  table(class="table is-bordered is-striped is-narrow")
+  table(class="table is-bordered is-striped is-narrow is-fullwidth  is-hoverable")
     thead
       tr
         th Nombre de Usuario

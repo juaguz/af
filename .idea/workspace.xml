@@ -4,6 +4,7 @@
     <list default="true" id="54c1acd1-784f-4c8d-9e24-e712a2b858e9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/clients/_id.vue" afterPath="$PROJECT_DIR$/pages/clients/_id.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/repositories/FormularioRepo.js" afterPath="$PROJECT_DIR$/repositories/FormularioRepo.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -23,8 +24,18 @@
       <file leaf-file-name="_id.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/clients/_id.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="63" column="20" lean-forward="false" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+            <state relative-caret-position="210">
+              <caret line="59" column="32" lean-forward="false" selection-start-line="59" selection-start-column="32" selection-end-line="59" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormularioRepo.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/repositories/FormularioRepo.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3250">
+              <caret line="125" column="33" lean-forward="false" selection-start-line="125" selection-start-column="33" selection-end-line="125" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -42,7 +53,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getTokenFromLocalStorage</find>
       <find>SETuSER</find>
       <find>permissons-form</find>
       <find>showPermissons</find>
@@ -72,6 +82,7 @@
       <find>getTokenF</find>
       <find>getFormulario</find>
       <find>$route</find>
+      <find>cliente_form</find>
     </findStrings>
     <replaceStrings>
       <replace>formulario</replace>
@@ -99,7 +110,6 @@
         <option value="$PROJECT_DIR$/repositories/Graphql.js" />
         <option value="$PROJECT_DIR$/repositories/ClienteRepo.js" />
         <option value="$PROJECT_DIR$/pages/clients/index.vue" />
-        <option value="$PROJECT_DIR$/repositories/FormularioRepo.js" />
         <option value="$PROJECT_DIR$/pages/users/_id.html" />
         <option value="$PROJECT_DIR$/pages/users/index.html" />
         <option value="$PROJECT_DIR$/pages/users/_id.vue" />
@@ -138,6 +148,7 @@
         <option value="$PROJECT_DIR$/plugins/TraeClient.js" />
         <option value="$PROJECT_DIR$/pages/users/index.vue" />
         <option value="$PROJECT_DIR$/components/users/form.vue" />
+        <option value="$PROJECT_DIR$/repositories/FormularioRepo.js" />
         <option value="$PROJECT_DIR$/pages/clients/_id.vue" />
       </list>
     </option>
@@ -173,7 +184,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -181,22 +192,11 @@
               <item name="anamaya_frontend" type="b2602c69:ProjectViewProjectNode" />
               <item name="anamaya_frontend" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="anamaya_frontend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="anamaya_frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="anamaya_frontend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="anamaya_frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="clients" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -264,18 +264,22 @@
       <workItem from="1509144461129" duration="30000" />
       <workItem from="1509144695879" duration="3608000" />
       <workItem from="1509149262435" duration="3915000" />
-      <workItem from="1509200342161" duration="28000" />
+      <workItem from="1509200342161" duration="2027000" />
+      <workItem from="1509228404934" duration="474000" />
+      <workItem from="1509392990220" duration="1499000" />
+      <workItem from="1509463271605" duration="475000" />
+      <workItem from="1509572342441" duration="3086000" />
+      <workItem from="1510357101714" duration="69000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110442000" />
+    <option name="totallyTimeSpent" value="118044000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24305555" sideWeight="0.49058825" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27291667" sideWeight="0.49058825" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -333,13 +337,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/locales/es.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/web-components.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -562,7 +559,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -659,9 +655,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="88" column="28" lean-forward="false" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
-          <folding>
-            <element signature="e#1789#1837#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -686,10 +679,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/repositories/FormularioRepo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3250">
+          <caret line="125" column="33" lean-forward="false" selection-start-line="125" selection-start-column="33" selection-end-line="125" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pages/clients/_id.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="63" column="20" lean-forward="false" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+        <state relative-caret-position="210">
+          <caret line="59" column="32" lean-forward="false" selection-start-line="59" selection-start-column="32" selection-end-line="59" selection-end-column="32" />
           <folding />
         </state>
       </provider>

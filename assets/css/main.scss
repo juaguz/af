@@ -1,8 +1,7 @@
 @import "variables.scss";
 
 // @import "~font-awesome/scss/font-awesome.scss";
-@import"~bulma/bulma.sass";
-@import"~bulma-switch/switch.sass";
+
 
 @font-face {
   font-family: $font-family;
@@ -28,3 +27,12 @@ body{
     background-color: $grey;
     color: #fff;
 }
+
+.datepicker {
+  z-index: 1000 !important;
+}
+
+
+
+@import "~bulma";
+@import "~buefy/src/scss/buefy";

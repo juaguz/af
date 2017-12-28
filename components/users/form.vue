@@ -1,6 +1,5 @@
 <template lang="pug">
 div
-
   span(v-if="!button", v-on:click="shiftModal(true)") {{$t('add')}}
   button.button(v-if="button", v-on:click="shiftModal(true)") {{$t('add')}}
   .modal(:class="{ 'is-active': isActive }")

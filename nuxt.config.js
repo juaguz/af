@@ -6,7 +6,7 @@ module.exports = {
   generate: {
     routes: ['/', '/clientes', '/en', '/en/about']
   },
-  plugins: ['~/plugins/i18n.js', '~/plugins/Graphql', '~/plugins/TraeClient'],
+  plugins: ['~/plugins/i18n.js', '~/plugins/Graphql', '~/plugins/TraeClient','~plugins/buefy'],
   modules: [
     '@nuxtjs/font-awesome'
   ],
@@ -15,7 +15,7 @@ module.exports = {
     {src: '~assets/css/main.scss', lang: 'scss'} // scss instead of sass
   ],
   head: {
-    title: 'starter',
+    title: 'Ana Maya',
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
