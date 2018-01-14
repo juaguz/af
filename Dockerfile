@@ -1,4 +1,4 @@
-FROM node:7.8.0
+FROM node:8.7.0
 RUN mkdir -p /app
 EXPOSE 3000
 COPY . /app
