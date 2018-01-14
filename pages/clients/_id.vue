@@ -490,7 +490,8 @@ export default {
     },
     saveConvenio () {
       conveniosService.store(this.convenio).then((data) => {
-        this.convenios.push(data)
+        this.convenios.push(data.data)
+
         this.toggleModal('nuevo_convenio')
       }).catch((error) => console.log(error))
     },
