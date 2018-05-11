@@ -2,8 +2,8 @@ import {trae} from '~/plugins/TraeClient'
 
 export default class BaseRepo {
 
-  index (object) {
-    return trae.get(this.INDEX, object)
+  index (params) {
+    return trae.get(this.INDEX, {params})
   }
   store (object) {
     return trae.post(this.INDEX, object)

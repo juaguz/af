@@ -61,6 +61,19 @@ div
           .column.is-one-fifth
             label {{field('be52656d-d629-45fb-a5b1-225799dfc69d', 'label')}}
             input.input.is-small(v-model="client[field('be52656d-d629-45fb-a5b1-225799dfc69d','field')]")    
+          .column.is-one-fifth
+            label Codigo de Estado
+            .control
+                .select
+                  select.select.is-small(v-model="client.codsitu")
+                    option(v-for="codigoEstado in combos.codigosEstados", :value="codigoEstado.param_3") {{codigoEstado.descripcio}}
+          .column.is-one-fifth
+            label Codigo de Situacion
+            .control
+                .select
+                  select.select.is-small(v-model="client.codestados")
+                    option(v-for="codSituacion in combos.codigosSituacion", :value="codSituacion.param_3") {{codSituacion.descripcio}}
+          
       .section
         h4.title Fechas
         hr
@@ -99,11 +112,11 @@ div
         h4.title Observaciones
         hr
         .tile.box.is-vertical
-          textarea.textarea(v-model="observacion.detalle")
+          textarea.textarea(v-model="newComentario")
           .control
             button.button.is-info(v-on:click="guardarObservacion") Guardar
           hr
-          p(v-for="observacion in observaciones") {{observacion.detalle}}
+          p(v-html="client.comentario")
 
 
     tab(name="Facturas", v-on:active="getFacturas", icon="fa-file-o")
@@ -191,14 +204,16 @@ div
                 i.fa.fa-angle-down(aria-hidden='true')
           #dropdown-menu.dropdown-menu(role='menu')
             .dropdown-content
-              a.dropdown-item(href='#', v-on:click="toggleModal('pagos_deudor')")
-                | Pagos informados por el deudor / Pagos informados fuerda de cartera / Promesas de pago
-              hr.dropdown-divider
-              a.dropdown-item
-                | Pagos efectuados en Estudio / Emision de Recibo de Pagos
-              hr.dropdown-divider
-              a.dropdown-item
-                | Promesas de Pago Telmex
+              a.dropdown-item(href='#',v-for="tippago in combos.tipPago" ,v-on:click="openModalPagos(tippago.param_2)")
+                | {{tippago.descripcio}}
+              //- a.dropdown-item(href='#', v-on:click="toggleModal('pagos_deudor')")
+              //-   | Pagos informados por el deudor / Pagos informados fuerda de cartera / Promesas de pago
+              //- hr.dropdown-divider
+              //- a.dropdown-item
+              //-   | Pagos efectuados en Estudio / Emision de Recibo de Pagos
+              //- hr.dropdown-divider
+              //- a.dropdown-item
+              //-   | Promesas de Pago Telmex
 
         table.table.is-bordered.is-striped.is-narrow.is-fullwidth.is-hoverable(v-if="pagos.length > 0")
           thead
@@ -265,9 +280,9 @@ div
                 td {{getConvenioData(convenio,cuota,'fecha')}}
                 td $ {{getConvenioData(convenio,cuota,'importe')}}
 
-    tab(name="Complementos", icon="fa-cogs")
+    //tab(name="Complementos", icon="fa-cogs")
       //- div hola hola
-    tab(name="Info/Procesos", icon="fa-info-circle")
+    //tab(name="Info/Procesos", icon="fa-info-circle")
       //- div hola hola
     tab(name="Politicas", icon="fa-legal")
       div(v-for='s in speech')
@@ -312,7 +327,12 @@ div
             input.input(type="number",min="0",max="36",v-model.number="convenio.cuotas")
           .column.is-4
             label Tipo de Acuerdo
-            input.input(type="text",v-model="convenio.acuerdo")
+            //- input.input(type="text",v-model="convenio.acuerdo")
+            .control
+                .select
+                  select.select(v-mode="convenio.acuerdo")
+                    option(v-for="tipoConvenio in combos.tiposConvenios", :value="tipoConvenio.id") {{tipoConvenio.descripcio}}
+                  p(class="help is-danger")
         .columns
          .column.is-4  
            label Nro de Convenio
@@ -343,7 +363,7 @@ div
     .modal-background
     .modal-card
       header.modal-card-head
-        p.modal-card-title Carga de Pagos Informados Por el Deudor
+        p.modal-card-title Carga de Pagos
         button.delete(aria-label="close", v-on:click="toggleModal('pagos_deudor')")
       section(class="modal-card-body")
         .columns
@@ -351,44 +371,46 @@ div
             .field
               label Comprobante
               .control
-                input.input(type='text', placeholder='Comprobante')
+                input.input(type='text', placeholder='Comprobante', v-model='nuevoPago.comprobant')
                 p(class="help is-danger")
-          .column.is-3
-            .field
-              label Tipo de Pago
-              .control
-                input.input(type='text', placeholder='Tipo de Pago')
-                p(class="help is-danger")
+          //- .column.is-3
+          //-   .field
+          //-     label Tipo de Pago
+          //-     .control
+          //-       .select
+          //-         select.select(v-model='nuevoPago.forpago')
+          //-           option(v-for="tipoPago in combos.tipoPagos" :value="tipoPago.param_3") {{tipoPago.descripcio}}
+          //-         p(class="help is-danger")
           .column.is-3
             .field
               label Fecha de Pago
               .control
-                input.input(type='text', placeholder='Fecha de Pago')
+                datepicker(type='text', placeholder='Fecha de Pago' v-model="nuevoPago.f_pago")
                 p(class="help is-danger")
           .column.is-3
             .field
               label Fecha de Aplicacion
               .control
-                input.input(type='text', placeholder='Fecha de Aplicacion')
+                datepicker(type='text', placeholder='Fecha de Aplicacion' v-model="nuevoPago.f_aplicacion")
                 p(class="help is-danger")
         .columns
           .column.is-3
             .field
               label Importe
               .control
-                input.input(type='text', placeholder='Importe')
+                input.input(type='text', placeholder='Importe' v-model="nuevoPago.importe")
                 p(class="help is-danger")
         .columns                  
           .column.is-12
             .field
               label Comentario
               .control
-                textarea.textarea
+                textarea.textarea(v-model="nuevoPago.comentario")
                 
 
 
       footer.modal-card-foot
-        button(class="button is-success") Guardar
+        button(class="button is-success" v-on:click="guardarpago") Guardar
         button(class="button", v-on:click="toggleModal('pagos_deudor')") Cancelar
 
 
@@ -408,12 +430,14 @@ import FacturasService from '~/services/FacturasService'
 import SpeechService from '~/services/SpeechService'
 import PagosService from '~/services/PagosService'
 import ConveniosService from '~/services/ConveniosService'
+import ParametrosService from '~/services/ParametrosService'
 const formularioService = new FormularioService()
 const pagosServices = new PagosService()
 const observacionesService = new ObservacionesService()
 const speechService = new SpeechService()
 const facturasService = new FacturasService()
 const conveniosService = new ConveniosService()
+const parametrosService = new ParametrosService()
 import Datepicker from '~/components/datepicker'
 export default {
   components: {
@@ -455,10 +479,32 @@ export default {
   },
   data () {
     return {
+      newComentario: null,
       client: {},
       observaciones: {},
       formulario: [],
       convenios: [],
+      nuevoPago: {
+        deudor: null,
+        empresa: null,
+        remesa: null,
+        comprobant: null,
+        forpago: null,
+        tipago: null,
+        f_pago: null,
+        f_aplic: null,
+        f_rendicio: null,
+        importe: null,
+        comentario: null,
+        upcode1: null,
+        upcode2: null,
+        upcode3: null,
+        upcode4: null,
+        upcode5: null,
+        upcode6: null,
+        upfecha: null,
+        nroemp: null
+      },
       idDeudor: null,
       nroEmpresa: null,
       speech: [],
@@ -481,17 +527,51 @@ export default {
         deudor: null,
         detalle: null
       },
-      showPosition: false
+      showPosition: false,
+      combos: {
+        tipoPagos: [],
+        codigosEstados: [],
+        codigosSituacion: [],
+        tiposConvenios: [],
+        tipPago: []
+      }
     }
   },
   methods: {
+    guardarpago () {
+      pagosServices.store(this.nuevoPago).then((data) => {
+        console.log(data)
+        this.pagos.push(data.data)
+        this.toggleModal('pagos_deudor')
+      })
+    },
+    openModalPagos (tipPago) {
+      this.toggleModal('pagos_deudor')
+      this.nuevoPago.tipago = tipPago
+    },
+
+    getTiposPago () {
+      parametrosService.getTipoPago(this.nroEmpresa).then((data) => { this.combos.tipoPagos = data })
+    },
+    getTipoConvenio () {
+      parametrosService.getTipoConvenio(this.nroEmpresa).then((data) => { this.combos.tiposConvenios = data })
+    },
+    getCodigosEstados () {
+      parametrosService.getCodigosEstados(this.nroEmpresa).then((data) => { this.combos.codigosEstados = data })
+    },
+    getCodigoSituacion () {
+      parametrosService.getCodigosSituacion(this.nroEmpresa).then((data) => { this.combos.codigosSituacion = data })
+    },
+    getTipPago () {
+      parametrosService.getTipPago().then((data) => { this.combos.tipPago = data })
+    },
+
     toggleModal (modal) {
       this.modals[modal] = !this.modals[modal]
     },
     saveConvenio () {
       conveniosService.store(this.convenio).then((data) => {
         this.convenios.push(data.data)
-
         this.toggleModal('nuevo_convenio')
       }).catch((error) => console.log(error))
     },
@@ -501,6 +581,10 @@ export default {
       })
     },
     getPagos () {
+      if (this.combos.tipoPagos.length === 0) {
+        this.getTiposPago()
+      }
+
       pagosServices.search(this.getParamsSearch()).then(({data}) => {
         this.pagos = data
       }).catch((error) => {
@@ -535,12 +619,16 @@ export default {
       })
     },
     guardarObservacion () {
-      observacionesService.store(this.observacion).then(({data}) => {
-        this.observaciones.push(data)
-        this.observacion.detalle = ''
-      }).catch((error) => {
-        alert(error)
-      })
+      let clientService = new ClientService()
+      let comentario = `${this.newComentario} <br> ${this.client.comentario}`
+      clientService.update(this.idDeudor, {comentario}).then((res) => {
+        if (res.status === 200) {
+          this.client.comentario = comentario
+          this.newComentario = null
+        } else {
+          alert('Algo salio mal intente mas tarde')
+        }
+      }).catch(err => { alert(err) })
     },
     field (value, typeField) {
       if (this.showPosition) return value
@@ -580,8 +668,14 @@ export default {
     this.getFormulario()
     this.getObservaciones()
     this.getSpeech()
+    this.getCodigosEstados()
+    this.getCodigoSituacion()
+    this.getTipoConvenio()
+    this.getTipPago()
     this.observacion.deudor = id
     this.convenio.deudor = id
+    this.nuevoPago.deudor = this.idDeudor
+    this.nuevoPago.empresa = empresa
   }
 }
 </script>

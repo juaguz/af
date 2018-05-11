@@ -19,9 +19,9 @@ export default class BaseService {
     })
   }
 
-  index () {
+  index (params) {
     return new Promise((resolve, reject) => {
-      this.repo.index().then((data) => {
+      this.repo.index(params).then((data) => {
         resolve(data)
       }).catch((err) => {
         reject(err)
@@ -38,6 +38,9 @@ export default class BaseService {
     })
   }
   update (id, data) {
-
+    return new Promise((resolve, reject) => {
+      this.repo.update(id, data).then((data) => resolve(data)).catch((err) => reject(err))
+    })
   }
 }
+
