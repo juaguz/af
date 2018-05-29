@@ -1,4 +1,4 @@
-export const BASE_URL = `http://190.210.25.141:8000`
+export const BASE_URL = `http://200.5.98.203:8000`
 // export const BASE_URL = `http://localhost:8000`
 export const GRAPH_URL = `${BASE_URL}/graphql`
 export const AUTH_URL = 'api-token-auth/'
