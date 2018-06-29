@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  CustomMenu
+  CustomMenu(v-on:buscar="query")
   section(class="hero is-small is-primary is-bold")
     .hero-body
       .container
@@ -71,6 +71,18 @@ export default {
       this.hasNextPage = true
       this.getData({args: { first: 15, before: this.clients[14].cursor }})
     },
+    query () {
+      let query = this.$route.query
+      let count = Object.keys(query).length
+      if (count <= 0) {
+        this.getData()
+      } else {
+        for (var q in query) {
+          let value = query[q]
+          this.search([{'field': q, 'value': value}])
+        }
+      }
+    },
     getData () {
       let el = this
       return clientService.index().then(({model, data}) => {
@@ -101,13 +113,14 @@ export default {
       }
     }
   },
-  mounted () {
-    let telefono = this.$route.query.telefono
-    if (telefono !== undefined) {
-      this.search([{'field': 'telefono1', 'value': telefono}])
-    } else {
-      this.getData()
-    }
+  created () {
+    // let telefono = this.$route.query.telefono
+    // if (telefono !== undefined) {
+    //   this.search([{'field': 'telefono1', 'value': telefono}])
+    // } else {
+    //   this.getData()
+    // }
+    this.query()
   }
 }
 

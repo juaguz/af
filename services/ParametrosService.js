@@ -5,6 +5,7 @@ const CODIGOTIPOESTADOS = '010'
 const CODIGOSESTADOSITUACION = '000'
 const CODIGOTIPOCONVENIO = '009'
 const CODIGTIPOPAGO = '006'
+const CODIGOBANCOS = '263'
 
 export default class ParametrosService extends BaseService {
   constructor () {
@@ -25,6 +26,9 @@ export default class ParametrosService extends BaseService {
   }
   getTipoConvenio (empresa) {
     return this.index({empresa: empresa, param: CODIGOTIPOCONVENIO}).then(data => data.data)
+  }
+  getBancos (empresa) {
+    return this.index({empresa: empresa, param: CODIGOBANCOS}).then(data => data.data)
   }
   getTipPago () {
     return this.index({param: CODIGTIPOPAGO}).then(data => data.data)

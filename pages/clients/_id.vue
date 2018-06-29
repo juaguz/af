@@ -235,6 +235,7 @@ div
             th {{ field('871f4c82-a587-47d4-8456-4fca44a0cca0', 'label') }}
             th {{ field('c6fd7096-7b39-4c05-a2b4-9c69c5a7eb98', 'label') }}
             th {{ field('0cc05be0-8931-4281-b565-bee30ca8443e', 'label') }}
+            th Acciones
           tbody
             tr(v-for="pago in pagos")
               td {{ pago[field('a442cf22-87ad-4261-9534-e20218d94d5c', 'field')] }}
@@ -255,7 +256,31 @@ div
               td {{ pago[field('871f4c82-a587-47d4-8456-4fca44a0cca0', 'field')] }}
               td {{ pago[field('c6fd7096-7b39-4c05-a2b4-9c69c5a7eb98', 'field')] }}
               td {{ pago[field('0cc05be0-8931-4281-b565-bee30ca8443e', 'field')] }}
-          
+              td
+                a(v-on:click="editarPago(pago)") Editar 
+                span | 
+                a(v-on:click="eliminarPago(pago)") Anular
+    
+    tab(name="Recibos" v-on:activate="getRecibos")
+      .section
+        button.button.is-info(v-on:click="toggleModal('recibos')") Nuevo Recibo
+        table.table.is-bordered.is-striped.is-narrow.is-fullwidth.is-hoverable
+          thead
+            tr
+              th Fecha
+              th Cuit
+              th Tipo Recibo
+              th Total
+              th Acciones
+          tbody
+            tr(v-for="recibo in recibos")
+              td {{recibo.fecha}}
+              td {{client.cuitdoc}}
+              td Recibo {{recibo.tiporec}}
+              td {{recibo.total}}
+              td 
+                a(@click="recibo_detalle(recibo)") Detalle
+
     tab(name="Convenios", icon="fa-handshake-o", v-on:active="getConvenios")
       .section
         button.button.is-info(v-on:click="toggleModal('nuevo_convenio')") Nuevo Convenio
@@ -313,7 +338,7 @@ div
     .modal-background
     .modal-card
       header.modal-card-head
-        p.modal-card-title Generacion de Convenio de Pago
+        .modal-card-title Generacion de Convenio de Pago
         button.delete(aria-label="close", v-on:click="toggleModal('nuevo_convenio')")
       section(class="modal-card-body")
         .columns
@@ -330,7 +355,7 @@ div
             //- input.input(type="text",v-model="convenio.acuerdo")
             .control
                 .select
-                  select.select(v-mode="convenio.acuerdo")
+                  select.select(v-model="convenio.acuerdo")
                     option(v-for="tipoConvenio in combos.tiposConvenios", :value="tipoConvenio.id") {{tipoConvenio.descripcio}}
                   p(class="help is-danger")
         .columns
@@ -358,7 +383,98 @@ div
       footer.modal-card-foot
         button(class="button is-success", v-on:click="saveConvenio") Guardar
         button(class="button", v-on:click="toggleModal('nuevo_convenio')") Cancelar            
+  
+  .modal(:class="{ 'is-active': modals.recibo_detalle }")
+    .modal-background
+    .modal-card
+      header.modal-card-head
+        p.modal-card-title Detalle de Recibo
+        button.delete(aria-label="close", v-on:click="toggleModal('recibo_detalle')")
+      section(class="modal-card-body")
+        .columns 
+          .column.is-3
+            p Fecha
+          .column.is-3
+            p Nro Cheque
+          .column.is-3
+            p Banco
+          .column.is-3
+            p Importe
+        .columns(v-for="n in [5,4,8,7,6]")
+          .column.is-3
+            p {{recibo['fecha'+n]}}
+          .column.is-3
+            p {{recibo['chegir'+n]}}
+          .column.is-3
+            p {{recibo['bco'+n] | bancoDescripcio }}
+          .column.is-3
+            p {{recibo['importe'+n]}}
+        .columns        
+          .column.is-3
+              p Efectivo {{recibo['efectivo']}}
+
           
+      footer.modal-card-foot
+        button(class="button", v-on:click="toggleModal('recibo_detalle')") Cerrar
+
+
+
+  .modal(:class="{ 'is-active': modals.recibos }")
+    .modal-background
+    .modal-card
+      header.modal-card-head
+        p.modal-card-title Carga de Recibos
+        button.delete(aria-label="close", v-on:click="toggleModal('recibos')")
+      section(class="modal-card-body")
+        .columns 
+          .column.is-3
+            datepicker(type='text', placeholder='Fecha' v-model="nuevoRecibo['fecha']")
+          .column.is-3.is-offset-2
+            .control
+              label.radio
+                input(type='radio', v-model="nuevoRecibo['tiporec']", value="X")
+                |     Recibo X
+              label.radio
+                input(type='radio',  v-model="nuevoRecibo['tiporec']", value="B")
+                |     Recibo B
+          .column.is-3.is-offset-1
+            p 
+              h2 Total {{totalRecibo}}
+        .columns
+          .column.is-3
+            p Fecha
+          .column.is-3
+            p Nro Cheque
+          .column.is-3
+            p Banco
+          .column.is-3
+            p Importe
+        .columns(v-for="n in [5,4,8,7,6]")
+          .column.is-3
+            .field
+              datepicker(type='text', placeholder='Fecha' v-model="nuevoRecibo['fecha'+n]")
+          .column.is-3
+            .field
+              input.input(type='text', placeholder='Nro Cheque', v-model="nuevoRecibo['chegir'+n]")
+          .column.is-3
+            .field
+              //- input.input(type='text', placeholder='Banco', v-model="nuevoRecibo['bco'+n]")
+              div.select
+                select(v-model="nuevoRecibo['bco'+n]")
+                  option(v-for="banco in bancos" :value="banco.param_3") {{banco.descripcio}}
+          .column.is-3
+            .field
+              input.input(type='text', placeholder='Importe' v-model="nuevoRecibo['importe'+n]")
+        .columns        
+          .column.is-3.is-offset-9
+            .field
+              label Efectivo
+              input.input(type='text', placeholder='Importe' v-model="nuevoRecibo['efectivo']")      
+          div.space
+      footer.modal-card-foot
+        button(class="button is-success" v-on:click="guardarRecibo") Guardar
+        button(class="button", v-on:click="toggleModal('recibos')") Cancelar
+
   .modal(:class="{ 'is-active': modals.pagos_deudor }")
     .modal-background
     .modal-card
@@ -372,7 +488,7 @@ div
               label Comprobante
               .control
                 input.input(type='text', placeholder='Comprobante', v-model='nuevoPago.comprobant')
-                p(class="help is-danger")
+                
           //- .column.is-3
           //-   .field
           //-     label Tipo de Pago
@@ -391,7 +507,13 @@ div
             .field
               label Fecha de Aplicacion
               .control
-                datepicker(type='text', placeholder='Fecha de Aplicacion' v-model="nuevoPago.f_aplicacion")
+                datepicker(type='text', placeholder='Fecha de Aplicacion' v-model="nuevoPago.f_aplic")
+                p(class="help is-danger")
+          .column.is-3
+            .field
+              label Fecha de Aplicacion
+              .control
+                datepicker(type='text', placeholder='Fecha de Rendicion' v-model="nuevoPago.f_rendicio")
                 p(class="help is-danger")
         .columns
           .column.is-3
@@ -399,6 +521,18 @@ div
               label Importe
               .control
                 input.input(type='text', placeholder='Importe' v-model="nuevoPago.importe")
+                p(class="help is-danger")
+          .column.is-3
+            .field
+              label Remesa
+              .control
+                input.input(type='text', placeholder='Remesa' v-model="nuevoPago.remesa")
+                p(class="help is-danger")
+          .column.is-3
+            .field
+              label Nro Empresa
+              .control
+                input.input(type='text', placeholder='Nro Empresa' v-model="nuevoPago.nroemp")
                 p(class="help is-danger")
         .columns                  
           .column.is-12
@@ -431,7 +565,9 @@ import SpeechService from '~/services/SpeechService'
 import PagosService from '~/services/PagosService'
 import ConveniosService from '~/services/ConveniosService'
 import ParametrosService from '~/services/ParametrosService'
+import RecibosService from '~/services/RecibosService'
 const formularioService = new FormularioService()
+const recibosService = new RecibosService()
 const pagosServices = new PagosService()
 const observacionesService = new ObservacionesService()
 const speechService = new SpeechService()
@@ -439,6 +575,7 @@ const facturasService = new FacturasService()
 const conveniosService = new ConveniosService()
 const parametrosService = new ParametrosService()
 import Datepicker from '~/components/datepicker'
+var bancos = []
 export default {
   components: {
     CustomMenu, Tabs, Tab, EstadoCuenta, Datepicker
@@ -452,18 +589,32 @@ export default {
     },
     fecha () {
       return moment(this.convenio.fecha)
+    },
+    totalRecibo () {
+      var nros = [5, 4, 8, 7, 6]
+      var total = 0
+      var el = this
+      nros.forEach(function (n) {
+        var importe = parseFloat(el.nuevoRecibo['importe' + n])
+        if (importe !== undefined && !isNaN(importe)) {
+          total += importe
+        }
+      })
+      var efectivo = parseFloat(this.nuevoRecibo['efectivo'])
+      if (efectivo !== undefined && !isNaN(efectivo)) {
+        total += efectivo
+      }
+      this.nuevoRecibo['total'] = total
+      return total
     }
+
   },
   watch: {
     total () {
-      console.log(this.cuotas)
       for (var i = 1; i <= parseInt(this.cuotas); i++) {
         this.importes_convenios[i] = parseFloat(this.total) / this.cuotas
         this.$set(this.convenio, `importe${i}`, this.importes_convenios[i])
       }
-    },
-    fecha () {
-
     },
     cuotas: {
       handler (val, mutation) {
@@ -484,6 +635,8 @@ export default {
       observaciones: {},
       formulario: [],
       convenios: [],
+      editPago: false,
+      nuevoRecibo: {},
       nuevoPago: {
         deudor: null,
         empresa: null,
@@ -505,6 +658,7 @@ export default {
         upfecha: null,
         nroemp: null
       },
+      bancos: [],
       idDeudor: null,
       nroEmpresa: null,
       speech: [],
@@ -514,7 +668,9 @@ export default {
       importes_convenios: [],
       modals: {
         pagos_deudor: false,
-        nuevo_convenio: false
+        nuevo_convenio: false,
+        recibos: false,
+        recibo_detalle: false
       },
       convenio: {
         deudor: null,
@@ -523,6 +679,8 @@ export default {
         importes: [],
         importe: 0
       },
+      recibos: [],
+      recibo: {},
       observacion: {
         deudor: null,
         detalle: null
@@ -537,19 +695,48 @@ export default {
       }
     }
   },
+  filters: {
+    bancoDescripcio (bancoId) {
+      let banco = bancos.find((banco) => banco.param_3 === bancoId)
+      if (banco === undefined) return null
+      return banco.descripcio
+    }
+  },
   methods: {
-    guardarpago () {
-      pagosServices.store(this.nuevoPago).then((data) => {
-        console.log(data)
-        this.pagos.push(data.data)
-        this.toggleModal('pagos_deudor')
+    eliminarPago (pago) {
+      pagosServices.delete(pago.id).then((data) => {
+        this.pagos.splice(this.pagos.indexOf(pago), 1)
       })
     },
+    recibo_detalle (recibo) {
+      this.recibo = recibo
+      this.toggleModal('recibo_detalle')
+    },
+    guardarpago () {
+      if (!this.editPago) {
+        pagosServices.store(this.nuevoPago).then((data) => {
+          this.pagos.push(data.data)
+          this.toggleModal('pagos_deudor')
+        })
+      } else {
+        pagosServices.update(this.nuevoPago.id, this.nuevoPago).then((data) => {
+          this.toggleModal('pagos_deudor')
+          this.editPago = false
+          this.nuevoPago = {}
+        })
+      }
+    },
     openModalPagos (tipPago) {
+      this.editPago = false
       this.toggleModal('pagos_deudor')
       this.nuevoPago.tipago = tipPago
     },
-
+    getBancos () {
+      parametrosService.getBancos(this.nroEmpresa).then((data) => {
+        this.bancos = data
+        bancos = data
+      })
+    },
     getTiposPago () {
       parametrosService.getTipoPago(this.nroEmpresa).then((data) => { this.combos.tipoPagos = data })
     },
@@ -561,6 +748,9 @@ export default {
     },
     getCodigoSituacion () {
       parametrosService.getCodigosSituacion(this.nroEmpresa).then((data) => { this.combos.codigosSituacion = data })
+    },
+    getRecibos () {
+      recibosService.search(this.getParamsSearch()).then((data) => { this.recibos = data.data })
     },
     getTipPago () {
       parametrosService.getTipPago().then((data) => { this.combos.tipPago = data })
@@ -644,12 +834,24 @@ export default {
         console.log(error)
       })
     },
+    guardarRecibo () {
+      this.nuevoRecibo['deudor'] = this.idDeudor
+      this.nuevoRecibo['empresa'] = this.empresa
+      recibosService.store(this.nuevoRecibo).then((data) => this.recibos.push(data.data)).catch((error) => console.log(error))
+      this.toggleModal('recibos')
+      this.nuevoRecibo = {}
+    },
     getSpeech () {
       return speechService.search(this.nroEmpresa).then(({data}) => {
         this.speech = data
       }).catch((error) => {
         console.log(error)
       })
+    },
+    editarPago (pago) {
+      this.nuevoPago = pago
+      this.toggleModal('pagos_deudor')
+      this.editPago = true
     },
     getData () {
       let clienteRepo = new ClientService()
@@ -672,6 +874,8 @@ export default {
     this.getCodigoSituacion()
     this.getTipoConvenio()
     this.getTipPago()
+    this.getRecibos()
+    this.getBancos()
     this.observacion.deudor = id
     this.convenio.deudor = id
     this.nuevoPago.deudor = this.idDeudor
@@ -709,6 +913,10 @@ export default {
     margin-top: 5px;
   }
   
+  .space {
+    margin-top: 10px; 
+    padding: 10px;
+  }
 
 
  

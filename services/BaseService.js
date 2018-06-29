@@ -28,6 +28,15 @@ export default class BaseService {
       })
     })
   }
+  delete (id) {
+    return new Promise((resolve, reject) => {
+      this.repo.delete(id).then((data) => {
+        resolve(data)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  }
   store (data) {
     return new Promise((resolve, reject) => {
       this.repo.store(data).then((data) => {

@@ -14,6 +14,9 @@ export default class BaseRepo {
   find (id) {
     return trae.get(`${this.INDEX}${id}/`)
   }
+  delete (id) {
+    return trae.delete(`${this.INDEX}${id}/`)
+  }
   // params = [{field:value}]
   search (params) {
     let searString = ''
